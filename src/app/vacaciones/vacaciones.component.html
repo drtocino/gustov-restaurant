@@ -1,0 +1,62 @@
+<div class="dark" >
+    <div class="py-8 px-4 mx-auto max-w-5xl lg:py-16">
+        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Solicitud de vacaciones</h2>
+        <div class="grid gap-4 lg:gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+            <div class="text-center text-gray-500 dark:text-gray-400">
+                <img src="https://eu.ui-avatars.com/api/?background=random&name={{empleado.nombres}}+{{empleado.apellidos}}&size=250" alt="iMac Front Image" class="mx-auto mb-4 w-36 h-36 rounded-full">
+                <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {{empleado.nombres}} {{empleado.apellidos}}
+                </h3>
+                <p>{{empleado.cargo}}</p>
+            </div>
+            <div class="col-span-2">
+                <h3 class="mb-1 text-xl font-semibold text-gray-900 dark:text-white">Datos de trabajo</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-6 gap-2">
+                    <div class="col-span-3" >
+                        <h3 class="mb-1 text-base font-semibold text-gray-900 dark:text-white">Fecha de inicio en el restaurant</h3>
+                        <div class="bg-gray-50 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-slate-800 dark:text-white">
+                            {{fechaFormatoLegible(empleado.fechaInicio)}}
+                        </div>
+                    </div>
+                    <div class="col-span-3" >
+                        <h3 class="mb-1 text-base font-semibold text-gray-900 dark:text-white">Fecha actual</h3>
+                        <div class="bg-gray-50 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-slate-800 dark:text-white">
+                            {{fechaFormatoLegible(hoy)}}
+                        </div>
+                    </div>
+                    <div class="col-span-2 mt-2">
+                        <div class="bg-slate-300 p-3 rounded-lg font-bold text-4xl text-center">
+                            {{diasVacaciones}} Días
+                        </div>
+                        <p>Tiempo de vacaciones</p>
+                    </div>
+                    <div class="col-span-4 mt-2">
+                        <div class="text-slate-50">
+                            {{empleado.nombres}} lleva trabajando con nosotros por {{anios}} años, por lo que corresponden {{diasVacaciones}} días disponibles para tomar vacaciones
+                        </div>
+                        <p>Tiempo trabajando</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white mt-6">Reservar vacaciones</h2>
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                <div class="w-full">
+                    <label for="fechaInicio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha inicio</label>
+                    <input type="date" name="fechaInicio" id="fechaInicio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Escribe el apellido del empleado" required="" [(ngModel)]="vacacionesEmpleado.fechaInicio" >
+                </div>
+                <div class="w-full">
+                    <label for="fechaFin" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha fin</label>
+                    <input type="date" name="fechaFin" id="fechaFin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" placeholder="Escribe el apellido del empleado" required="" [(ngModel)]="vacacionesEmpleado.fechaFin" >
+                </div>
+            </div>
+            <button type="button" class="mr-4 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-slate-700 rounded-lg focus:ring-4 focus:ring-slate-200 dark:focus:ring-slate-900 hover:bg-slate-800">
+                Cancelar
+            </button>
+            <button type="button" (click)="registrarVacacion()" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-yellow-700 rounded-lg focus:ring-4 focus:ring-yellow-200 dark:focus:ring-yellow-900 hover:bg-yellow-800">
+                Reservar
+            </button>
+        </div>
+    </div>
+</div>

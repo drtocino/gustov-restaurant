@@ -1,0 +1,79 @@
+<div class="px-4 dark " >
+    <h1 class="text-2xl text-slate-50">Empleados</h1>
+    <div class="relative overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg mt-4">
+
+        <div class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
+            <div class="flex items-center flex-1 space-x-4">
+                <h5>
+                    <span class="text-gray-500">Todos los empleados:</span>
+                    <span class="dark:text-white"> {{listaEmpleados.length}}</span>
+                </h5>
+            </div>
+            <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
+                <button [routerLink]="['/empleados/crear']" type="button" class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800">
+                    <svg class="h-5 w-5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                    </svg>
+                    Agregar empleado
+                </button>
+                <button type="button" class="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                    Actualizar lista
+                </button>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="p-4">
+                            <div class="flex items-center">
+                                <input id="checkbox-all" type="checkbox" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="checkbox-all" class="sr-only">checkbox</label>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-4 py-3">Empleado</th>
+                        <th scope="col" class="px-4 py-3">Category</th>
+                        <!-- <th scope="col" class="px-4 py-3">Stock</th> -->
+                        <th scope="col" class="px-4 py-3">Años trabajando</th>
+                        <th scope="col" class="px-4 py-3">Fecha de Inicio</th>
+                        <!-- <th scope="col" class="px-4 py-3">Creación</th>
+                        <th scope="col" class="px-4 py-3">Ultima actualización</th> -->
+                        <th scope="col" class="px-4 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let emp of listaEmpleados" >
+                    <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <td class="w-4 px-4 py-3">
+                            <div class="flex items-center">
+                                <input id="checkbox-table-search-1" type="checkbox" onclick="event.stopPropagation()" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                            </div>
+                        </td>
+                        <th scope="row" class="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <img src="https://eu.ui-avatars.com/api/?background=random&name={{emp.nombres}}+{{emp.apellidos}}&size=250" alt="iMac Front Image" class="w-auto h-8 mr-3 rounded-full">
+                            {{emp.nombres}} {{emp.apellidos}} 
+                        </th>
+                        <td class="px-4 py-2">
+                            <span class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">{{emp.cargo}}</span>
+                        </td>
+                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{tiempoTrabajando(emp.fechaInicio)}}</td>
+                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{emp.fechaInicio.substring(0,10)}}</td>
+                        <!-- <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{emp.createdAt.substring(0,10)}}</td>
+                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{emp.updatedAt.substring(0,10)}}</td> -->
+                        <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white flex">
+                            <button [routerLink]="['/vacaciones/',emp.idUsuario]" type="button" class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-slate-800">
+                                Recibos
+                            </button>
+                            <button [routerLink]="['/vacaciones/',emp.idUsuario]" type="button" class="ml-4 flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800">
+                                Vacaciones
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
