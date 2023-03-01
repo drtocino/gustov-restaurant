@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  logged : boolean = false;
+
   title = 'gustov-restaurant';
+
+  onLog(eventData : any){
+    console.log(eventData)
+    this.logged = eventData
+  }
 }

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Empleado } from '../models/Empleado';
 import { RangoVacaciones } from '../models/RangoVacaciones';
 import { VacacionesEmpleado } from '../models/VacacionesEmpleado';
+import { UsuarioService } from '../usuario.service';
 
 @Component({
   selector: 'vacaciones',
@@ -41,12 +42,11 @@ export class VacacionesComponent implements OnInit {
   @Input() idEmpleado : number = 0;
 
   
-  constructor(private http : HttpClient, private router: Router) { }
+  constructor(private http : HttpClient, private router: Router,private usuarioService : UsuarioService) { }
 
   ngOnInit(): void {
     this.getEmpleado();
     this.getRangosVacaciones();
-    // this.diasVacacion();
   }
 
   tiempoTrabajando(fecha : string){
@@ -56,7 +56,6 @@ export class VacacionesComponent implements OnInit {
   }
 
   diasVacacion(anios : number, rangos : RangoVacaciones[]){
-    // this.anios = this.tiempoTrabajando(this.empleado.fechaInicio);
     if(anios == 0){
       Swal.fire({
         icon: 'error',
@@ -67,24 +66,17 @@ export class VacacionesComponent implements OnInit {
         allowOutsideClick: false,
         background: 'rgb(17 24 39)',
         color: 'white'
-        
-        // footer: '<a href="">Why do I have, this issue?</a>'
-
       }).then((res) => {
         if(res.isConfirmed){
           this.router.navigate(['/empleados'])
         }
       })
-
       return 0;
     }else{
-
       const rango = rangos.filter((x) => (x.cantidadMinima <= anios && x.cantidadMaxima >= anios))
       this.diasVacaciones = rango.length > 0 ? rango[0].diasVacacion : 0;
       return rango.length > 0 ? rango[0].diasVacacion : 0;
     }
-    // console.log(rango)
-
   }
   
   fechaFormatoLegible(fecha : string){
@@ -99,10 +91,9 @@ export class VacacionesComponent implements OnInit {
   getEmpleado(){
     this.http.get<Empleado>(this.apiGlobal+this.idEmpleado).subscribe((val) => {
       val ?
-      // this.listaEmpleados.push(...val)
       this.empleado = val
       :
-      alert("Credenciales incorrectos");
+      alert("No se pudo consultar");
       this.anios = this.tiempoTrabajando(val.fechaInicio);
     })
 
@@ -111,10 +102,9 @@ export class VacacionesComponent implements OnInit {
   getRangosVacaciones(){
     this.http.get<RangoVacaciones[]>(this.rangosApi).subscribe((val) => {
       val ?
-      // this.listaEmpleados.push(...val)
       this.rangosVacaciones.push(...val)
       :
-      alert("Credenciales incorrectos");
+      alert("No se pudo consultar");
       this.diasVacacion(this.anios,val)
 
     })
@@ -122,12 +112,27 @@ export class VacacionesComponent implements OnInit {
 
   registrarVacacion(){
     this.vacacionesEmpleado.idUsuario = this.idEmpleado;
-    this.http.post<VacacionesEmpleado>(this.vacacionApi, this.vacacionesEmpleado).subscribe((val) => {
-      val ?
-      this.router.navigate(['/empleados'])
-      :
-      alert("No creado")
-    })
+    const diff = this.usuarioService.diferenciaDias(this.vacacionesEmpleado.fechaInicio,this.vacacionesEmpleado.fechaFin);
+    console.log(diff)
+    if(this.diasVacaciones < diff){
+      Swal.fire({
+        icon: 'error',
+        title: 'Vacaciones',
+        text: 'No se puede tomar mas dias de lo establecido intenta de nuevo',
+        confirmButtonColor: 'rgb(220 38 38)',
+        confirmButtonText: "Salir",
+        allowOutsideClick: false,
+        background: 'rgb(17 24 39)',
+        color: 'white'
+      })
+    }else{
+      this.http.post<VacacionesEmpleado>(this.vacacionApi, this.vacacionesEmpleado).subscribe((val) => {
+        val ?
+        this.router.navigate(['/recibos/',this.idEmpleado])
+        :
+        alert("No creado")
+      })
+    }
   }
 
 }

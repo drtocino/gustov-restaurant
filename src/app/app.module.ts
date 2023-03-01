@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { CrearEmpleadoComponent } from './crear-empleado/crear-empleado.component';
 import { VacacionesComponent } from './vacaciones/vacaciones.component';
 import { RevisarVacacionesComponent } from './revisar-vacaciones/revisar-vacaciones.component';
+import { RecibosVacacionesComponent } from './recibos-vacaciones/recibos-vacaciones.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RevisarVacacionesComponent } from './revisar-vacaciones/revisar-vacacio
     EmpleadosComponent,
     CrearEmpleadoComponent,
     VacacionesComponent,
-    RevisarVacacionesComponent
+    RevisarVacacionesComponent,
+    RecibosVacacionesComponent
   ],
   imports: [
     BrowserModule,
